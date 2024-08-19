@@ -1,15 +1,15 @@
 import { config } from 'dotenv';
 import mongoose from 'mongoose';
 
-config(); // Load environment variables
+config();
 
-mongoose.set('strictQuery', false); // Handling strictQuery warning
+mongoose.set('strictQuery', false);
 
-let isConnected = false; // Track connection status
+let isConnected = false;
 
-const connectDB = async () => {
+const connectDB = async (retries = 5, delay = 5000) => {
     if (process.env.NODE_ENV === 'test') {
-        return; // Skip connecting if in test environment
+        return;
     }
 
     if (isConnected) {
@@ -17,21 +17,30 @@ const connectDB = async () => {
         return;
     }
 
-    try {
-        await mongoose.connect(process.env.MONGO_URI || '');
-        isConnected = true; // Set connection status to true
-        console.log('MongoDB Connected');
-    } catch (error) {
-        if (error instanceof Error) {
-            console.error('MongoDB connection failed:', error.message);
-        } else {
-            console.error('An unknown error occurred during MongoDB connection.');
-        }
+    for (let i = 0; i < retries; i++) {
+        try {
+            await mongoose.connect(process.env.MONGO_URI || '');
+            isConnected = true; // Set connection status to true
+            console.log('MongoDB Connected');
+            return;
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error(`MongoDB connection failed (attempt ${i + 1}/${retries}):`, error.message);
+            } else {
+                console.error(`An unknown error occurred during MongoDB connection (attempt ${i + 1}/${retries}).`);
+            }
 
-        if (process.env.NODE_ENV !== 'test') {
-            process.exit(1); // Only exit the process in non-test environments
-        } else {
-            throw new Error('MongoDB connection failed');
+            if (i < retries - 1) {
+                console.log(`Retrying in ${delay / 1000} seconds...`);
+                await new Promise(res => setTimeout(res, delay));
+            } else {
+                console.error('All retries failed. Exiting...');
+                if (process.env.NODE_ENV !== 'test') {
+                    process.exit(1);
+                } else {
+                    throw new Error('MongoDB connection failed after multiple retries');
+                }
+            }
         }
     }
 };

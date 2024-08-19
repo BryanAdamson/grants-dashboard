@@ -29,7 +29,7 @@ Before you begin, ensure you have met the following requirements:
 
     Create a `.env` file in the root directory and add the following:
     ```
-    MONGO_URI=mongodb://mongo:27017/grants-dashboard 
+    MONGO_URI=mongodb://localhost:27017/grants-dashboard
     ```
 
     The `MONGO_URI` should match the MongoDB service name in the `docker-compose.yml` file.

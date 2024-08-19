@@ -7,7 +7,10 @@ import cors from 'cors';
 
 const startServer = async () => {
     const app = express();
-    app.use(cors());
+    app.use(cors({
+        origin: '*',
+        credentials: true,
+    }));
 
     const server = new ApolloServer({ typeDefs, resolvers });
     await server.start();

@@ -12,8 +12,9 @@ services:
     container_name: grants_backend
     ports:
       - '4000:4000'
-    env_file:
-      - .env
+    environment:
+      - MONGO_URI=mongodb://root:example@mongo:27017/grants_db?authSource=admin
+      - NODE_ENV=production
     depends_on:
       - mongo
 
