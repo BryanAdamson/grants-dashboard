@@ -6,9 +6,6 @@ services:
       - '27017:27017'
     volumes:
       - mongo_data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
 
   backend:
     build: .
@@ -19,7 +16,6 @@ services:
       - .env
     depends_on:
       - mongo
-    command: sh -c "dockerize -wait tcp://mongo:27017 -timeout 30s npm start"
 
 volumes:
   mongo_data:
