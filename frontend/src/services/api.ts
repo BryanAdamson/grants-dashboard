@@ -1,7 +1,14 @@
 import {ApolloClient, createHttpLink, gql, InMemoryCache} from '@apollo/client';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
+if (!apiUrl) {
+    console.error('The REACT_APP_API_URL environment variable is not defined.');
+    throw new Error('REACT_APP_API_URL environment variable is not defined');
+}
+
 const client = new ApolloClient({
-    link: createHttpLink({ uri: 'http://localhost:4000/graphql' }),
+    link: createHttpLink({ uri: apiUrl }),
     cache: new InMemoryCache(),
 });
 

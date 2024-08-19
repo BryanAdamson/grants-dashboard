@@ -14,6 +14,7 @@ services:
       - '4000:4000'
     environment:
       - MONGO_URI=mongodb://root:example@mongo:27017/grants_db?authSource=admin
+      - PORT=4000
       - NODE_ENV=production
     depends_on:
       - mongo
