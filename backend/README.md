@@ -21,13 +21,13 @@ Before you begin, ensure you have met the following requirements:
 
 1.  **Clone the Repository**:
     ```
-    git clone https://github.com/yourusername/grants-dashboard-backend.git
-    cd grants-dashboard-backend
+    git clone https://github.com/BryanAdamson/grants-dashboard.git
+    cd grants-dashboard/backend
     ```
 
 2.  **Set Up Environment Variables**:
 
-    Create a `.env` file in the root directory and add the following:
+    Create a `.env` file in the backend directory and add the following:
     ```
     MONGO_URI=mongodb://localhost:27017/grants-dashboard
     ```
@@ -89,8 +89,6 @@ The backend exposes a GraphQL API. You can explore and test the API using a tool
 
 -   **Get All Grants**:
 
-    graphql
-
     ```
     query {
         getGrants {
@@ -108,8 +106,6 @@ The backend exposes a GraphQL API. You can explore and test the API using a tool
     ```
 
 -   **Create a Grant**:
-
-    graphql
 
     ```
     mutation {
@@ -132,8 +128,6 @@ The backend exposes a GraphQL API. You can explore and test the API using a tool
     ```
 
 -   **Update a Grant**:
-
-    graphql
 
     ```
     mutation {
@@ -169,7 +163,7 @@ The backend exposes a GraphQL API. You can explore and test the API using a tool
     }
     ```
 
--   **Delete a Grant**:
+-   **Submit Feedback**:
     ```
     mutation {
         submitFeedback(
