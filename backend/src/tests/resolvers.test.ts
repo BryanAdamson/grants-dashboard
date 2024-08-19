@@ -32,16 +32,16 @@ describe('GraphQL API', () => {
             .post('/graphql')
             .send({
                 query: `
-          query {
-            getGrants {
-              foundationName
-              grantName
-              averageAmount
-              location
-              status
-            }
-          }
-        `,
+                  query {
+                    getGrants {
+                      foundationName
+                      grantName
+                      averageAmount
+                      location
+                      status
+                    }
+                  }
+                `,
             });
 
         expect(response.status).toBe(200);
@@ -63,22 +63,22 @@ describe('GraphQL API', () => {
             .post('/graphql')
             .send({
                 query: `
-          mutation {
-            createGrant(grantInput: {
-              foundationName: "${grantInput.foundationName}",
-              grantName: "${grantInput.grantName}",
-              averageAmount: ${grantInput.averageAmount},
-              deadline: "${grantInput.deadline}",
-              location: "${grantInput.location}",
-              areaOfFunding: ["${grantInput.areaOfFunding.join('","')}"],
-              matchDate: "${grantInput.matchDate}"
-            }) {
-              foundationName
-              grantName
-              averageAmount
-            }
-          }
-        `,
+                  mutation {
+                    createGrant(grantInput: {
+                      foundationName: "${grantInput.foundationName}",
+                      grantName: "${grantInput.grantName}",
+                      averageAmount: ${grantInput.averageAmount},
+                      deadline: "${grantInput.deadline}",
+                      location: "${grantInput.location}",
+                      areaOfFunding: ["${grantInput.areaOfFunding.join('","')}"],
+                      matchDate: "${grantInput.matchDate}"
+                    }) {
+                      foundationName
+                      grantName
+                      averageAmount
+                    }
+                  }
+                `,
             });
 
         expect(response.status).toBe(200);
