@@ -2,8 +2,7 @@ import React from 'react';
 import Card from '../components/Card/Card';
 import GrantsTable from '../components/Table/GrantsTable';
 import { useGrants } from '../hooks/useGrants';
-import styles from '../styles/App.css';
-import Header from "../components/Layout/Header";
+import styles from '../styles/Dashboard.module.css';
 
 const Dashboard: React.FC = () => {
     const { grants, loading, error, handleFeedbackSubmit } = useGrants();
@@ -16,7 +15,6 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className={styles.dashboard}>
-            <Header />
             <div className={styles.container}>
                 <h2>New Matches</h2>
                 <div className={styles.cards}>
