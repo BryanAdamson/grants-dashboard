@@ -42,20 +42,5 @@ export const submitFeedback = async (id: string, feedback: string, isPositive: b
         variables: { id, feedback, status },
     });
 
-    if (!isPositive) {
-        let mutation = gql`
-          mutation deleteGrant($id: ID!) {
-            deleteGrant(id: $id) {
-              id foundationName grantName
-            }
-          }
-        `;
-
-        await client.mutate({
-            mutation,
-            variables: {id, feedback},
-        });
-    }
-
     return data.submitFeedback;
 };

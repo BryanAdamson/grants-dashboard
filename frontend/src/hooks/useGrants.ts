@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getGrants, submitFeedback } from '../services/api';
+import { getGrants, submitFeedback } from '@/services/api';
 
 export const useGrants = () => {
     const [grants, setGrants] = useState([]);
