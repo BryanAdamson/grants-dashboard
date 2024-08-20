@@ -18,8 +18,7 @@ const createApolloServer = (): ApolloServer => {
         typeDefs,
         resolvers,
         context: ({ req }) => ({ authHeader: req.headers.authorization }),
-        playground: process.env.NODE_ENV !== 'production',
-        introspection: true,
+        persistedQueries: false
     });
 };
 

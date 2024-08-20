@@ -8,7 +8,7 @@ function App() {
   const { grants, loading, error, handleFeedbackSubmit } = useGrants();
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message || "Something went wrong"}</p>;
+  if (error) return <p>Error: {error.message || "Something went wrong. Please ensure the backend is running."}</p>;
 
   const newMatches = grants.filter((grant: MatchesCardProps) => grant.status === 'Applied');
   const previousGrants = grants.filter((grant: MatchesCardProps) => grant.status !== 'Applied');

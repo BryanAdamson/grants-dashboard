@@ -2,6 +2,13 @@
 
 This is the Grants Dashboard Fullstack app.
 
+### Installation
+
+1.  **Clone the Repository**:
+    ```
+    git clone https://github.com/BryanAdamson/grants-dashboard.git
+    ```
+    
 ## Backend
 This is the backend service for the Grants Dashboard application. The backend is built using Node.js, TypeScript, and GraphQL, with MongoDB as the database. It provides a GraphQL API for managing grant opportunities and feedback.
 
@@ -52,18 +59,9 @@ Before you begin, ensure you have met the following requirements:
 
 ### Installation
 
-1.  **Clone the Repository**:
+1.  **Open Backend Directory**:
     ```
-    git clone https://github.com/BryanAdamson/grants-dashboard.git
-    cd grants-dashboard/backend
-    ```
-
-2.  **Set Up Environment Variables**:
-
-    Create a `.env` file in the backend directory and add the following:
-    ```
-    MONGO_URI=mongodb://localhost:27017/grants-dashboard
-    PORT=4000
+    cd backend
     ```
 
 
@@ -96,23 +94,54 @@ docker-compose down
 
 This will stop and remove the containers for both the backend and MongoDB services.
 
+#### Running locally
+
+To run the backend locally, ensure you have MongoDB installed on your machine:
+
+1.  **Set Up Environment Variables**:
+
+    Create a `.env` file in the backend directory and add the following:
+    ```
+    MONGO_URI=mongodb://localhost:27017/grants-dashboard
+    PORT=4000
+    ```
+    
+2.  **Install Packages**:
+    ```
+    npm install
+    ```
+
+    This command will start the backend server.
+
+3.  **Start the Server**:
+
+    ```
+    npm start
+    ```
+
+    This command will start the backend server.
+
+4.  **Access the Backend API**:
+
+    The backend service will be available at `http://localhost:4000/graphql`.
+
+
+#### Stopping the Services
+
+To stop the services, run:
+
+```
+docker-compose down 
+```
+
+This will stop and remove the containers for both the backend and MongoDB services.
+
 ### Running Tests
 
-To run the tests:
-
-1.  **Bring Up the Services** (if they are not already running):
+To run the tests, run:
     ```
-    docker-compose up -d 
+    npm test
     ```
-
-2.  **Run Tests**:
-    ```
-    docker-compose exec backend npm test
-    ```
-
-
-This will execute both unit and integration tests inside the backend container.
-
 ### API Documentation
 
 The backend exposes a GraphQL API. You can explore and test the API using a tool like [GraphQL Playground](https://github.com/graphql/graphql-playground) or Postman.
@@ -244,17 +273,16 @@ frontend
 
 ### Installation
 
-1.  **Clone the repository:**
+1.  **Open Frontend Directory:**
 
     ```
-        git clone https://github.com/yourusername/grants-dashboard-frontend.git
-        cd grants-dashboard-frontend
+        cd frontend
     ```
 2.  **Set Up Environment Variables**:
 
     Create a `.env` file in the backend directory and add the following:
     ```
-    REACT_APP_API_URL=http://localhost:4000/graphql
+    VITE_API_URL=http://localhost:4000/graphql
     ```
 3. **Install dependencies:**
 
@@ -272,7 +300,7 @@ frontend
 2.  **Access the application in your browser:**
 
     ```
-    http://localhost:3000
+    http://localhost:5173
     ```
     The frontend will connect to the backend API at the configured GraphQL endpoint.
 
@@ -286,8 +314,16 @@ frontend
 o run both the frontend and backend of the Grants Dashboard simultaneously:
 1. Follow the steps highlighted in the previous sections to start both the backend and the frontend.
 2. Access the application:
-   - Frontend: Open your browser and go to http://localhost:3000 to interact with the frontend.
+   - Frontend: Open your browser and go to http://localhost:5173 to interact with the frontend.
    - Backend: The backend GraphQL API will be running at http://localhost:4000/graphql.
+3. In order to properly test the frontend run this curl script a few times in order to populate the database. Ensure You have the backend running.
+    ```
+    curl -X POST http://localhost:4000/graphql \
+    -H "Content-Type: application/json" \
+    -d '{
+    "query": "mutation { createGrant(grantInput: { foundationName: \"Test Foundation\", grantName: \"Test Grant\", averageAmount: 100000, location: \"Test City\", areaOfFunding: [\"Education\"], matchDate: \"2024-01-01\", deadline: \"2024-01-31\" }) { id foundationName grantName averageAmount location areaOfFunding matchDate deadline status } }"
+    }'
+    ```
 
 
 

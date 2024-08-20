@@ -2,6 +2,10 @@ services:
   mongo:
     image: mongo
     container_name: grants_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: grants_db
     ports:
       - '27017:27017'
     volumes:
