@@ -242,23 +242,45 @@ This is the frontend of the Grants Dashboard application, built using React.js a
 ### Project Structure
 
 ```
-frontend
-├── public                # Public files (e.g., index.html)
+.
+├── components.json
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── public
+│   ├── logo.jpeg
+│   └── vite.svg
 ├── src
-│   ├── components        # Reusable React components
-│   │   ├── Card          # Components related to grant cards
-│   │   ├── Layout        # Layout components like Header
-│   │   └── Table         # Components for displaying tables
-│   ├── context           # React Context for global state
-│   ├── hooks             # Custom React hooks
-│   ├── pages             # Page components (e.g., Dashboard)
-│   ├── services          # API service functions for making requests
-│   ├── styles            # CSS modules for styling
-├── Dockerfile            # Dockerfile for containerizing the frontend
-├── package.json          # NPM package file
-├── tsconfig.json         # TypeScript configuration file
-└── README.md             # Project README`
-
+│   ├── App.tsx
+│   ├── assets
+│   │   └── react.svg
+│   ├── components
+│   │   ├── FeedbackModal.tsx
+│   │   ├── GrantOpportunitiesTable.tsx
+│   │   ├── GrantTableRow.tsx
+│   │   ├── HeaderSection.tsx
+│   │   ├── MatchesCard.tsx
+│   │   └── shadcn-ui
+│   │       ├── menubar.tsx
+│   │       └── popover.tsx
+│   ├── hooks
+│   │   └── useGrants.ts
+│   ├── index.css
+│   ├── lib
+│   │   └── utils.ts
+│   ├── main.tsx
+│   ├── services
+│   │   └── api.ts
+│   ├── utils
+│   │   └── helpers.ts
+│   └── vite-env.d.ts
+├── tailwind.config.js
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
 ```
 
 ### Installation
