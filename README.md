@@ -126,16 +126,6 @@ To run the backend locally, ensure you have MongoDB installed on your machine:
     The backend service will be available at `http://localhost:4000/graphql`.
 
 
-#### Stopping the Services
-
-To stop the services, run:
-
-```
-docker-compose down 
-```
-
-This will stop and remove the containers for both the backend and MongoDB services.
-
 ### Running Tests
 
 To run the tests, run:
@@ -280,7 +270,7 @@ frontend
     ```
 2.  **Set Up Environment Variables**:
 
-    Create a `.env` file in the backend directory and add the following:
+    Create a `.env` file in the frontend directory and add the following:
     ```
     VITE_API_URL=http://localhost:4000/graphql
     ```
@@ -316,7 +306,7 @@ o run both the frontend and backend of the Grants Dashboard simultaneously:
 2. Access the application:
    - Frontend: Open your browser and go to http://localhost:5173 to interact with the frontend.
    - Backend: The backend GraphQL API will be running at http://localhost:4000/graphql.
-3. In order to properly test the frontend run this curl script a few times in order to populate the database. Ensure You have the backend running.
+3. In order to properly test the frontend, run this curl script in your terminal a few times in order to populate the database. Ensure You have the backend running.
     ```
     curl -X POST http://localhost:4000/graphql \
     -H "Content-Type: application/json" \
@@ -356,7 +346,7 @@ While the current implementation of the Grants Dashboard meets the core requirem
     -   Introducing a robust logging system would provide better insights into the application's behavior, help in debugging issues, and monitor performance. Logging would also be crucial for auditing and maintaining security compliance.
 4.  **Dependency Injection**:
 
-    -   The service layer should not necessarily depend on the business logic.
+    -   The business logic will not necessarily depend on the Database layer.
 
 ### Additional Considerations
 
