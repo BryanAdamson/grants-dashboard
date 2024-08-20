@@ -318,6 +318,9 @@ While the current implementation of the Grants Dashboard meets the core requirem
 3.  **Logging**:
 
     -   Introducing a robust logging system would provide better insights into the application's behavior, help in debugging issues, and monitor performance. Logging would also be crucial for auditing and maintaining security compliance.
+4.  **Dependency Injection**:
+
+    -   The service layer should not necessarily depend on the business logic.
 
 ### Additional Considerations
 

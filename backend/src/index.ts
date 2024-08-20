@@ -4,74 +4,78 @@ import { typeDefs } from './graphql/typeDefs';
 import { resolvers } from './graphql/resolvers';
 import connectDB from './config';
 import cors from 'cors';
+import { config } from 'dotenv';
+
+// Load environment variables
+config();
+
+/**
+ * Sets up and returns an initialized Apollo Server instance.
+ * @returns {ApolloServer} - An initialized Apollo Server instance.
+ */
+const createApolloServer = (): ApolloServer => {
+    return new ApolloServer({
+        typeDefs,
+        resolvers,
+        context: ({ req }) => ({ authHeader: req.headers.authorization }),
+        playground: process.env.NODE_ENV !== 'production',
+        introspection: true,
+    });
+};
+
+/**
+ * Sets up the Express server with necessary middleware.
+ * @param {express.Application} app - The Express application instance.
+ */
+const setupMiddleware = (app: express.Application) => {
+    // Apply CORS middleware
+    app.use(cors({
+        origin: process.env.CORS_ORIGIN || '*',
+        credentials: true,
+    }));
+};
 
 /**
  * Starts the Express server with Apollo GraphQL middleware.
- *
- * This function initializes an Express application, applies CORS settings, sets up an Apollo Server
- * with the provided type definitions and resolvers, connects to the MongoDB database, and finally
- * starts the server on the specified port. It handles errors during server startup and database
- * connection to ensure the application exits gracefully if any critical operation fails.
  */
 const startServer = async () => {
+    const app = express();
+
     try {
-        const app = express();
+        // Set up middleware
+        setupMiddleware(app);
 
-        // Apply CORS middleware
-        app.use(cors({
-            origin: '*',
-            credentials: true,
-        }));
-
-        // Initialize Apollo Server with type definitions and resolvers
-        let server: ApolloServer;
-
-        try {
-            server = new ApolloServer({ typeDefs, resolvers });
-            await server.start();
-            server.applyMiddleware({ app });
-            console.log('Apollo Server initialized');
-        } catch (error) {
-            console.error('Failed to initialize Apollo Server:', (error as Error).message);
-            throw error;
-        }
+        // Initialize Apollo Server
+        const server = createApolloServer();
+        await server.start();
+        server.applyMiddleware({ app });
+        console.log('Apollo Server initialized');
 
         // Connect to the MongoDB database
-        try {
-            await connectDB();
-            console.log('Connected to MongoDB');
-        } catch (error) {
-            console.error('Failed to connect to MongoDB:', (error as Error).message);
-            throw error;
-        }
+        await connectDB();
+        console.log('Connected to MongoDB');
 
         const PORT = process.env.PORT || 4000;
-
-        app.listen({ port: PORT }, () => {
+        const serverInstance = app.listen(PORT, () => {
             console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
-        }).on('error', (error: NodeJS.ErrnoException) => {
-            console.error('Failed to start Express server:', error.message);
-            process.exit(1);
         });
 
+        // Graceful shutdown
+        const shutdown = () => {
+            console.log('Shutting down gracefully...');
+            serverInstance.close(() => {
+                console.log('HTTP server closed');
+                process.exit(0);
+            });
+        };
+
+        process.on('SIGINT', shutdown);
+        process.on('SIGTERM', shutdown);
+
     } catch (error) {
-        if (error instanceof Error) {
-            console.error('Failed to start server:', error.message);
-        } else {
-            console.error('An unknown error occurred while starting the server.');
-        }
+        console.error('Failed to start server:', error instanceof Error ? error.message : error);
         process.exit(1);
     }
-
-    process.on('SIGINT', () => {
-        console.log('Received SIGINT. Shutting down gracefully...');
-        process.exit(0);
-    });
-
-    process.on('SIGTERM', () => {
-        console.log('Received SIGTERM. Shutting down gracefully...');
-        process.exit(0);
-    });
 };
 
 // Start the server
